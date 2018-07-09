@@ -1,0 +1,8 @@
+{
+  "name": "cordova-brother-label-printer-doozer",
+  "version": "0.5.0",
+  "description": "Adds automatic label detection.",
+  "main": "printer.js",
+  "author": "Robert Hohn",
+  "license": "MIT"
+}
