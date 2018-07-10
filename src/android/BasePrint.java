@@ -65,8 +65,6 @@ public abstract class BasePrint {
         setCustomPaper();
 
         mPrinter.setPrinterInfo(mPrinterInfo);
-        mPrinterInfo.labelNameIndex = mPrinter.getLabelInfo().labelNameIndex;
-        mPrinter.setPrinterInfo(mPrinterInfo);
 
         if (mPrinterInfo.port == PrinterInfo.Port.USB) {
             while (true) {
@@ -520,6 +518,9 @@ public abstract class BasePrint {
         public void run() {
 
             setPrinterInfo();
+            mPrinterInfo.labelNameIndex = mPrinter.getLabelInfo().labelNameIndex;
+            mPrinter.setPrinterInfo(mPrinterInfo);
+
             mHandle.setLabelIndex(mPrinter.getLabelInfo().labelNameIndex);
 
             // start message
