@@ -55,8 +55,8 @@ import com.brother.ptouch.sdk.printdemo.printprocess.ImageFilePrint;
 
 public class BrotherPrinter extends CordovaPlugin {
     private static PrinterInfo.Model[] supportedModels = {
-        PrinterInfo.Model.QL_720NW,
-        PrinterInfo.Model.QL_820NWB,
+            PrinterInfo.Model.QL_720NW,
+            PrinterInfo.Model.QL_820NWB,
     };
 
     private MsgHandle mHandle;
@@ -528,15 +528,8 @@ public class BrotherPrinter extends CordovaPlugin {
 
     public void getLabelInfo(final JSONArray args, final CallbackContext callbackctx) {
         initializePrinter(args, callbackctx);
-        int paperSizeIndex = mBitmapPrint.getPaperSize();
-
-        int id = LabelInfo.QL700.getId(paperSizeIndex);
-
-        LabelInfo.QL700 paperSize = LabelInfo.QL700.valueFromID(id);
-
-        PluginResult result;
-        result = new PluginResult(PluginResult.Status.OK, paperSize.toString());
-        callbackctx.sendPluginResult(result);
+        mHandle.setCallbackContext(callbackctx);
+        mBitmapPrint.getPaperSize();
     }
 
 }

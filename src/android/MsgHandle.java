@@ -16,6 +16,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.brother.ptouch.sdk.LabelInfo;
 import com.brother.ptouch.sdk.PrinterInfo;
 //import com.brother.ptouch.sdk.printdemo.R;
 //
@@ -32,6 +33,7 @@ public class MsgHandle extends Handler {
 
     private String mResult;
     private String mBattery;
+    private String mLabelIndex;
     private boolean isCancelled = false;
     private int funcID = FUNC_OTHER;
 
@@ -56,6 +58,12 @@ public class MsgHandle extends Handler {
     public void setResult(String results) {
 
         mResult = results;
+    }
+
+    public void setLabelIndex(int index) {
+        int id = LabelInfo.QL700.getId(index);
+        LabelInfo.QL700 paperSize = LabelInfo.QL700.valueFromID(id);
+        mLabelIndex = paperSize.toString();
     }
 
     /**
@@ -206,6 +214,16 @@ public class MsgHandle extends Handler {
 
                 }
                 break;
+            case Common.MSG_LABEL_END:
+                isCancelled = false;
+
+                if (mCallback == null) {
+                    break;
+                }
+
+                final PluginResult sendEndResult = new PluginResult(PluginResult.Status.OK, mLabelIndex);
+                mCallback.sendPluginResult(sendEndResult);
+                mCallback = null;
             case Common.MSG_PRINT_CANCEL:
                 isCancelled = true;
 

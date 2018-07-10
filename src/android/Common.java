@@ -60,6 +60,7 @@ public class Common {
     public static final int MSG_DATA_SEND_START = 10030;
     public static final int MSG_DATA_SEND_END = 10031;
     public static final int MSG_GET_FIRM = 10099;
+    public static final int MSG_LABEL_END = 10100;
 
     // Activity_NetPrinterList
     public static final int SEARCH_TIMES = 10;
@@ -169,8 +170,8 @@ public class Common {
         if (extention.equalsIgnoreCase("pdz")
                 || extention.equalsIgnoreCase("blf")
                 || extention.equalsIgnoreCase("pd3")) {
-        return true;
-    }
+            return true;
+        }
         return false;
     }
 

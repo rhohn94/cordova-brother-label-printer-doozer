@@ -167,7 +167,7 @@ public abstract class BasePrint {
                             .parseBoolean(sharedPreferences.getString(
                                     "specialType", ""));
                     break;
-                 default:
+                default:
                     break;
             }
         } else {
@@ -312,9 +312,10 @@ public abstract class BasePrint {
         printTread.start();
     }
 
-    public int getPaperSize() {
-        setPrinterInfo();
-        return mPrinter.getLabelInfo().labelNameIndex;
+    public void getPaperSize() {
+        mCancel = false;
+        LabelThread labelThread = new LabelThread();
+        labelThread.start();
     }
 
     /**
@@ -510,6 +511,23 @@ public abstract class BasePrint {
             mHandle.sendMessage(msg);
         }
     }
+
+    /**
+     * Thread for printing
+     */
+    private class LabelThread extends Thread {
+        @Override
+        public void run() {
+
+            setPrinterInfo();
+            mHandle.setLabelIndex(mPrinter.getLabelInfo().labelNameIndex);
+
+            // start message
+            Message msg = mHandle.obtainMessage(Common.MSG_LABEL_END);
+            mHandle.sendMessage(msg);
+        }
+    }
+
 
     /**
      * Thread for getting the printer's status
