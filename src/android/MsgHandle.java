@@ -60,10 +60,14 @@ public class MsgHandle extends Handler {
         mResult = results;
     }
 
-    public void setLabelIndex(int index) {
-        int id = LabelInfo.QL700.getId(index);
-        LabelInfo.QL700 paperSize = LabelInfo.QL700.valueFromID(id);
-        mLabelIndex = paperSize.toString();
+    public void setLabelIndex(int index, String errorCode) {
+        if (errorCode == "") {
+            int id = LabelInfo.QL700.getId(index);
+            LabelInfo.QL700 paperSize = LabelInfo.QL700.valueFromID(id);
+            mLabelIndex = paperSize.toString();
+        } else {
+            mLabelIndex = errorCode;
+        }
     }
 
     /**

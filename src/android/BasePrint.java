@@ -517,13 +517,22 @@ public abstract class BasePrint {
         @Override
         public void run() {
 
+            // set our preferences so comms work as expected
             setPrinterInfo();
-            mPrinterInfo.labelNameIndex = mPrinter.getLabelInfo().labelNameIndex;
+
+            // Get label index representing paper size
+            int labelIndex = mPrinter.getLabelInfo().labelNameIndex;
+            mPrinterInfo.labelNameIndex = labelIndex;
             mPrinter.setPrinterInfo(mPrinterInfo);
 
-            mHandle.setLabelIndex(mPrinter.getLabelInfo().labelNameIndex);
+            // Check for general error codes.
+            String code = "";
+            if (mPrinter.getResult().errorCode != ErrorCode.ERROR_NONE) {
+                code = mPrinter.getResult().errorCode.toString();
+            }
 
             // start message
+            mHandle.setLabelIndex(labelIndex, code);
             Message msg = mHandle.obtainMessage(Common.MSG_LABEL_END);
             mHandle.sendMessage(msg);
         }
