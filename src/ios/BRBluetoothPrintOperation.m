@@ -68,17 +68,10 @@
         if (self.communicationResultForBT) {
             [self.ptp setPrintInfo:self.printInfo];
 
-            //[self.commandDelegate runInBackground:^{
-            
-            BRPtouchPrinterStatus *status;
-            //_errorCode = [self.ptp getStatus:&status];
             _errorCode = [self.ptp printImage:self.imgRef copy:self.numberOfPaper];
             if (_errorCode != 0) {
                 [self.ptp cancelPrinting];
             }
-            /*PTSTATUSINFO resultstatus;
-            [self.ptp getPTStatus:&resultstatus];
-            _resultStatus = resultstatus;*/
         }
 
         [self.ptp endCommunication];
