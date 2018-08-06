@@ -219,7 +219,6 @@ const NSString *BPContextImageKey = @"image";
 }
 
 -(void)findPrinters:(CDVInvokedUrlCommand*)command {
-//    [self.commandDelegate runInBackground:^{
         [self checkNetworkManager];
         [self networkPrintersWithCompletion:^(NSArray* networkPrinters, NSError *error) {
             if (error) {
@@ -245,10 +244,7 @@ const NSString *BPContextImageKey = @"image";
                  sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:[finalList copy]]
                  callbackId:command.callbackId];
             }];
-
         }];
-
-//    }];
     return;
 }
 
@@ -343,9 +339,8 @@ const NSString *BPContextImageKey = @"image";
 }
 
 -(void)printViaSDK:(CDVInvokedUrlCommand*)command {
-    NSLog(@"PrintViaSDK Called");
     NSString* base64Data = [command.arguments objectAtIndex:0];
-    NSLog(@"b64 set");
+    NSString* paperSize = [command.arguments objectAtIndex:1];
     if (base64Data == nil) {
         [self.commandDelegate
             sendPluginResult:[self errorResult:@"printViaSDK" withCode:1 withMessage:@"expected a string as the first argument."]
@@ -371,7 +366,7 @@ const NSString *BPContextImageKey = @"image";
 
     NSString *numPaper             = [self stringValueFromDefaults:userDefaults forKey:kPrintNumberOfPaperKey withFallback:@"1"]; // Item 1
 
-    printInfo.strPaperName         = [self stringValueFromDefaults:userDefaults forKey:kPrintNumberOfPaperKey withFallback:@"54mm"]; // Item 2
+    printInfo.strPaperName         = [self stringValueFromDefaults:userDefaults forKey:kPrintNumberOfPaperKey withFallback:[NSString stringWithFormat:@"%@mm", paperSize]]; // Item 2
     printInfo.nOrientation         = (int)[self integerValueFromDefaults:userDefaults forKey:kPrintOrientationKey withFallback:Landscape]; // Item 3
     printInfo.nPrintMode           = (int)[self integerValueFromDefaults:userDefaults forKey:kScalingModeKey withFallback:Fit]; // Item 4
     printInfo.scaleValue           = [self doubleValueFromDefaults:userDefaults forKey:kScalingFactorKey withFallback:1.0]; // Item 5
@@ -609,7 +604,7 @@ const NSString *BPContextImageKey = @"image";
 
 #pragma mark - Error Handler
 -(CDVPluginResult *)errorResult:(NSString *)namespace withCode:(NSInteger)code withMessage:(NSString *)message {
-    return [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:message];
+    return [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:message];
 }
 
 -(NSString *)errorMessageFromStatusInfo:(NSInteger)statusInfo {
