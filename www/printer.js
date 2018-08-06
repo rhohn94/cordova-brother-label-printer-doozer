@@ -16,12 +16,12 @@ BrotherPrinter.prototype = {
         cordova.exec(onSuccess, onError, 'BrotherPrinter', 'setPrinter', [printer]);
     },
 
-    printViaSDK: function (data, callback) {
+    printViaSDK: function (data, paperSize, callback) { // paperSize is not used by Android.
         if (!data || !data.length) {
             console.log('No data passed in. Expects a bitmap.')
             return
         }
-        cordova.exec(callback, function(err){console.log('error: '+err)}, 'BrotherPrinter', 'printViaSDK', [data])
+        cordova.exec(callback, function(err){console.log('error: '+err)}, 'BrotherPrinter', 'printViaSDK', [data, paperSize])
     },
 
     sendUSBConfig: function (data, callback) {

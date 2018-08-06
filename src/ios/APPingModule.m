@@ -156,7 +156,7 @@ static uint16_t in_cksum(const void *buffer, size_t bufferLen)
     [self stop];
     assert(self->_host == NULL);
     assert(self->_socket == NULL);
-    [super dealloc];
+    //[super dealloc];
 }
 
 + (APPingModule *)pingModuleWithHostName:(NSString *)hostName
